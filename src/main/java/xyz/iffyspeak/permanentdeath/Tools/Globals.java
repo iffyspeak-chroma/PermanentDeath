@@ -1,8 +1,18 @@
 package xyz.iffyspeak.permanentdeath.Tools;
 
 import dev.dejvokep.boostedyaml.YamlDocument;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import xyz.iffyspeak.permanentdeath.Interfaces.CI.ICustomItem;
+import xyz.iffyspeak.permanentdeath.PermanentDeath;
 import xyz.iffyspeak.permanentdeath.Tools.SQL.MySQL;
+
+import java.util.List;
 
 public class Globals {
     public static class Language {
@@ -20,7 +30,7 @@ public class Globals {
         public static class Item {
             public static class Heartcore {
                 public static String Use = "<green>You feel a searing pain that suddenly vanishes</green><br><color:#505050>The item you once held turns to nothing but ash and sulphur in your palm</color>";
-                public static String UseFailPrimary = "<red>You await that familiar searing pain but...</red>\n<color:#872d2d>nothing.</color> <color:#2b2b2b>(You dangerous lunatic)</color>";
+                public static String UseFail = "<red>You await that familiar searing pain but...</red>\n<color:#872d2d>nothing.</color> <color:#2b2b2b>(You dangerous lunatic)</color>";
             }
         }
     }
@@ -66,6 +76,112 @@ public class Globals {
             Database.dbPassword = Globals.Configuration.configuration.getString("database.password");
             Database.dbUseSSL = Globals.Configuration.configuration.getBoolean("database.useSSL");
 
+        }
+    }
+
+    public static class Item {
+        /*
+        public static class Supershard {
+
+            public static NamespacedKey key = new NamespacedKey(PermanentDeath.getPlugin(PermanentDeath.class), "supershard_key");
+            public static ItemStack getItem() {
+                ItemStack supershard = new ItemStack(Material.HONEYCOMB);
+                ItemMeta ssmeta = supershard.getItemMeta();
+                ssmeta.displayName(MiniMessage.miniMessage().deserialize("<yellow><b>Supershard</b></yellow>"));
+                ssmeta.lore(List.of(Component.text(""),
+                        MiniMessage.miniMessage().deserialize("<obf><gradient:#404040:#ffffff:#404040>lol if u read this ur gay</gradient></obf>"),
+                        Component.text(""),
+                        MiniMessage.miniMessage().deserialize("<aqua>It's trying to tell me something</aqua>"),
+                        MiniMessage.miniMessage().deserialize("<aqua>but I cannot decipher it.</aqua>"),
+                        Component.text(""),
+                        MiniMessage.miniMessage().deserialize("<red>Curse of Foreign Languages</red>")
+                ));
+
+                supershard.setItemMeta(ssmeta);
+
+                return supershard;
+            }
+
+
+        }
+        */
+        
+        public static class Supershard implements ICustomItem
+        {
+            @Override
+            public NamespacedKey key() {
+                return new NamespacedKey(PermanentDeath.getPlugin(PermanentDeath.class), "supershard_key");
+            }
+
+            @Override
+            public ItemStack getItem() {
+                ItemStack supershard = new ItemStack(Material.HONEYCOMB);
+                ItemMeta ssmeta = supershard.getItemMeta();
+                ssmeta.displayName(MiniMessage.miniMessage().deserialize("<yellow><b>Supershard</b></yellow>"));
+                ssmeta.lore(List.of(Component.text(""),
+                        MiniMessage.miniMessage().deserialize("<obf><gradient:#404040:#ffffff:#404040>lol if u read this ur gay</gradient></obf>"),
+                        Component.text(""),
+                        MiniMessage.miniMessage().deserialize("<aqua>It's trying to tell me something</aqua>"),
+                        MiniMessage.miniMessage().deserialize("<aqua>but I cannot decipher it.</aqua>"),
+                        Component.text(""),
+                        MiniMessage.miniMessage().deserialize("<red>Curse of Foreign Languages</red>")
+                ));
+
+                supershard.setItemMeta(ssmeta);
+
+                return supershard;
+            }
+        }
+
+        public static class UntappedHeartcore implements ICustomItem {
+            //public static NamespacedKey key = new NamespacedKey(PermanentDeath.getPlugin(PermanentDeath.class), "uhc_key");
+            @Override
+            public NamespacedKey key() {
+                return new NamespacedKey(PermanentDeath.getPlugin(PermanentDeath.class), "uhc_key");
+            }
+
+            @Override
+            public ItemStack getItem() {
+                ItemStack uh = new ItemStack(Material.HEART_OF_THE_SEA);
+                ItemMeta uhmeta = uh.getItemMeta();
+                uhmeta.displayName(MiniMessage.miniMessage().deserialize("<aqua><b>Untapped Heart Core</b></aqua>"));
+                uhmeta.lore(List.of(Component.text(""),
+                        MiniMessage.miniMessage().deserialize("<aqua>It feels powerful but I can't</aqua>"),
+                        MiniMessage.miniMessage().deserialize("<aqua>quite use it just yet.</aqua>"),
+                        Component.text(""),
+                        MiniMessage.miniMessage().deserialize("<red>Curse of Usability</red>")
+                ));
+
+                uh.setItemMeta(uhmeta);
+
+                return uh;
+            }
+        }
+
+        public static class Heartcore implements ICustomItem {
+            //public static NamespacedKey key = new NamespacedKey(PermanentDeath.getPlugin(PermanentDeath.class), "heartcore_key");
+            @Override
+            public NamespacedKey key() {
+                return new NamespacedKey(PermanentDeath.getPlugin(PermanentDeath.class), "heartcore_key");
+            }
+
+            @Override
+            public ItemStack getItem() {
+                ItemStack hc = new ItemStack(Material.HEART_OF_THE_SEA);
+                ItemMeta hcmeta = hc.getItemMeta();
+                hcmeta.displayName(MiniMessage.miniMessage().deserialize("<green><b>Heart Core</b></green>"));
+                hcmeta.lore(List.of(Component.text(""),
+                        MiniMessage.miniMessage().deserialize("<green><i>Knowing you are another step away</i></green>"),
+                        MiniMessage.miniMessage().deserialize("<green><i>from death makes you feel more at ease.</i></green>"),
+                        Component.text(""),
+                        MiniMessage.miniMessage().deserialize("<red>(Press <key:key.use> to regain hearts)</red>"),
+                        Component.text(""),
+                        MiniMessage.miniMessage().deserialize("<aqua>Curse of calming</aqua>")
+                ));
+                hc.setItemMeta(hcmeta);
+
+                return hc;
+            }
         }
     }
 }
