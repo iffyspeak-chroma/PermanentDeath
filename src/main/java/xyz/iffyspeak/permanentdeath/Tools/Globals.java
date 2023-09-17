@@ -59,6 +59,13 @@ public class Globals {
         public static void loadLocalConfig()
         {
             Bukkit.getLogger().info("Loading configuration... Please wait.");
+            Database.dbHost = Globals.Configuration.configuration.getString("database.host");
+            Database.dbPort = Globals.Configuration.configuration.getString("database.port");
+            Database.dbDatabase = Globals.Configuration.configuration.getString("database.database");
+            Database.dbUsername = Globals.Configuration.configuration.getString("database.username");
+            Database.dbPassword = Globals.Configuration.configuration.getString("database.password");
+            Database.dbUseSSL = Globals.Configuration.configuration.getBoolean("database.useSSL");
+
         }
     }
 }

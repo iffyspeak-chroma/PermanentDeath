@@ -8,6 +8,8 @@ import dev.dejvokep.boostedyaml.settings.updater.UpdaterSettings;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import xyz.iffyspeak.permanentdeath.Tools.Globals;
+import xyz.iffyspeak.permanentdeath.Tools.SQL.MySQL;
+import xyz.iffyspeak.permanentdeath.Tools.SQL.SQLToolkit;
 
 import java.io.File;
 import java.util.Objects;
@@ -24,15 +26,49 @@ public final class PermanentDeath extends JavaPlugin {
                     DumperSettings.DEFAULT,
                     UpdaterSettings.DEFAULT
             );
+
+            Globals.Configuration.loadLocalConfig();
+
+            if (Globals.Configuration.configuration.getBoolean("database.enabled"))
+            {
+                Globals.Database.useDatabase = true;
+                try {
+                    Globals.Database.mySQL = new MySQL();
+                    Globals.Database.mySQL.connect();
+                } catch (Exception e)
+                {
+                    Bukkit.getLogger().severe(e.toString());
+                    Bukkit.getLogger().severe("Unable to connect to database.\nDo you have the right credentials?");
+                }
+            } else
+            {
+                Bukkit.getLogger().info("Not using databases.");
+            }
+
+            if (Globals.Database.mySQL != null)
+            {
+                if (Globals.Database.mySQL.isConnected())
+                {
+                    Bukkit.getLogger().info("Successfully connected to database.");
+                    Bukkit.getLogger().info("Checking tables");
+                    SQLToolkit.createTable(Globals.Database.mySQL);
+                }
+            }
         } catch (Exception e)
         {
             Bukkit.getLogger().severe(e.toString());
         }
+
+        getServer().getPluginManager().registerEvents(new EventListener(), this);
 
     }
 
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+        if (Globals.Database.mySQL != null)
+        {
+            Globals.Database.mySQL.disconnect();
+        }
     }
 }
