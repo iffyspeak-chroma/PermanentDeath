@@ -1,0 +1,10 @@
+database:
+  enabled: false
+  host: localhost
+  port: 3306
+  database: iffyspeak
+  username: plugin
+  password: examplepassword
+  useSSL: false
+
+playerinfo:

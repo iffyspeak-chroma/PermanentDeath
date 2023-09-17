@@ -1,0 +1,6 @@
+name: PermanentDeath
+version: '${project.version}'
+main: xyz.iffyspeak.permanentdeath.PermanentDeath
+api-version: '1.20'
+load: STARTUP
+authors: [iffyspeak]
