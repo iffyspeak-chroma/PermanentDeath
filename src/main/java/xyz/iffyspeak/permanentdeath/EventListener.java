@@ -4,6 +4,7 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -14,6 +15,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import xyz.iffyspeak.permanentdeath.Tools.Globals;
 import xyz.iffyspeak.permanentdeath.Tools.SQL.MySQL;
@@ -161,16 +163,20 @@ public class EventListener implements Listener {
     public void onPlayerInteract(PlayerInteractEvent e)
     {
         Player localplayer = e.getPlayer();
+        Bukkit.getLogger().info("interact event detected");
         if (e.getHand() == EquipmentSlot.HAND && e.getAction().isRightClick())
         {
-
-            if (Objects.equals(e.getItem(), Globals.Implementation.heartcore.getItem()))
+            Bukkit.getLogger().info("is right hand");
+            if (e.getItem() != null && e.getItem().getItemMeta().getPersistentDataContainer().has(new NamespacedKey("this_plugin", "sucks_ass"), PersistentDataType.BOOLEAN))
             {
+
                 // If their max health is already above that max overheal amount
-                // (This is checking for 15 hearts
+                // (This is checking for 15 hearts)
+                Bukkit.getLogger().info("is heartcore item");
                 if (Objects.requireNonNull(localplayer.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue() >= 30)
                 {
                     localplayer.sendMessage(MiniMessage.miniMessage().deserialize(Toolkit.StringManipulation.parsePdArgs(Globals.Language.Item.Heartcore.UseFail, localplayer)));
+                    Bukkit.getLogger().info("too many hearts, ignoring.");
                 } else
                 {
                     localplayer.sendMessage(MiniMessage.miniMessage().deserialize(Toolkit.StringManipulation.parsePdArgs(Globals.Language.Item.Heartcore.Use, localplayer)));
@@ -181,6 +187,7 @@ public class EventListener implements Listener {
                     localplayer.getInventory().addItem(new ItemStack(Material.GUNPOWDER));
                     //localplayer.updateInventory();
                     // ^ Paper claims it is not necessary which I'm inclined to believe
+                    Bukkit.getLogger().info("update health");
                 }
             }
         }

@@ -8,6 +8,8 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 import xyz.iffyspeak.permanentdeath.Interfaces.CI.ICustomItem;
 import xyz.iffyspeak.permanentdeath.PermanentDeath;
 import xyz.iffyspeak.permanentdeath.Tools.SQL.MySQL;
@@ -169,6 +171,13 @@ public class Globals {
                         Component.text(""),
                         MiniMessage.miniMessage().deserialize("<aqua>Curse of calming</aqua>")
                 ));
+
+                // We're going try with persistent data containers
+                // Since the right click function is not working anymore
+
+                PersistentDataContainer pdc = hcmeta.getPersistentDataContainer();
+                pdc.set(new NamespacedKey("this_plugin", "sucks_ass"), PersistentDataType.BOOLEAN, true);
+
                 hc.setItemMeta(hcmeta);
 
                 return hc;
@@ -185,8 +194,7 @@ public class Globals {
         }
 
     }
-    public static class Implementation
-    {
+    public static class Implementation {
         public static Item.Supershard supershard;
         public static Item.UntappedHeartcore untappedHeartcore;
         public static Item.Heartcore heartcore;
