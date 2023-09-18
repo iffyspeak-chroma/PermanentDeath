@@ -32,7 +32,9 @@ public class Globals {
         public static class Item {
             public static class Heartcore {
                 public static String Use = "<green>You feel a searing pain that suddenly vanishes</green><br><color:#505050>The item you once held turns to nothing but ash and sulphur in your palm</color>";
-                public static String UseFail = "<red>You await that familiar searing pain but...</red>\n<color:#872d2d>nothing.</color> <color:#2b2b2b>(You dangerous lunatic)</color>";
+                public static String UseFailFull = "<red>You await that familiar searing pain but...</red>\n<color:#872d2d>nothing.</color> <color:#2b2b2b>(You dangerous lunatic)</color>";
+                public static String UseFailHealth = "<red>You cannot use this unless you are fully healed.</red>";
+
             }
         }
     }
@@ -174,7 +176,6 @@ public class Globals {
 
                 // We're going try with persistent data containers
                 // Since the right click function is not working anymore
-
                 PersistentDataContainer pdc = hcmeta.getPersistentDataContainer();
                 pdc.set(new NamespacedKey("this_plugin", "sucks_ass"), PersistentDataType.BOOLEAN, true);
 
