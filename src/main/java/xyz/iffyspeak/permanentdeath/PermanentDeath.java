@@ -75,6 +75,7 @@ public final class PermanentDeath extends JavaPlugin {
                 if (p.getHealth() % 2 == 0)
                 {
                     Objects.requireNonNull(p.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(p.getHealth());
+                    //getLogger().info("Set max health attribute to " + p.getHealth());
                 }
             }
 

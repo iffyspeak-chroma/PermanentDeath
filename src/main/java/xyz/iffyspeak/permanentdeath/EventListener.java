@@ -79,6 +79,7 @@ public class EventListener implements Listener {
                 localplayer.sendMessage(MiniMessage.miniMessage().deserialize(Toolkit.StringManipulation.parsePdArgs(Globals.Language.PlayerOnly.FinalDeath, localplayer)));
             }
         }
+        Objects.requireNonNull(localplayer.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(20d);
     }
 
     @EventHandler
@@ -123,7 +124,6 @@ public class EventListener implements Listener {
             {
                 localplayer.sendMessage(MiniMessage.miniMessage().deserialize(Toolkit.StringManipulation.parsePdArgs(Globals.Language.PlayerOnly.LivesLeft, localplayer)));
             }
-            Objects.requireNonNull(localplayer.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(20d);
         }
     }
 
