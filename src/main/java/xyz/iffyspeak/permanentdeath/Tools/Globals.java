@@ -6,7 +6,7 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.ItemMeta;
 import xyz.iffyspeak.permanentdeath.Interfaces.CI.ICustomItem;
 import xyz.iffyspeak.permanentdeath.PermanentDeath;
@@ -17,7 +17,7 @@ import java.util.List;
 public class Globals {
     public static class Language {
         public static class PlayerOnly {
-            public static String LivesLeftBegin = "<red>You died!<br>You have <yellow>%lives%</yellow> lives remaining.</red>";
+            public static String LivesLeft = "<red>You died!<br>You have <yellow>%lives%</yellow> lives remaining.</red>";
             public static String FinalLifeMessage = "<red><b><u>You died and are on your final life</u></b><br>If you die again, you will no longer be able to play.</red>";
             public static String FinalDeath = "<red>You died and can no longer continue to play.</red>";
         }
@@ -80,36 +80,9 @@ public class Globals {
     }
 
     public static class Item {
-        /*
-        public static class Supershard {
-
-            public static NamespacedKey key = new NamespacedKey(PermanentDeath.getPlugin(PermanentDeath.class), "supershard_key");
-            public static ItemStack getItem() {
-                ItemStack supershard = new ItemStack(Material.HONEYCOMB);
-                ItemMeta ssmeta = supershard.getItemMeta();
-                ssmeta.displayName(MiniMessage.miniMessage().deserialize("<yellow><b>Supershard</b></yellow>"));
-                ssmeta.lore(List.of(Component.text(""),
-                        MiniMessage.miniMessage().deserialize("<obf><gradient:#404040:#ffffff:#404040>lol if u read this ur gay</gradient></obf>"),
-                        Component.text(""),
-                        MiniMessage.miniMessage().deserialize("<aqua>It's trying to tell me something</aqua>"),
-                        MiniMessage.miniMessage().deserialize("<aqua>but I cannot decipher it.</aqua>"),
-                        Component.text(""),
-                        MiniMessage.miniMessage().deserialize("<red>Curse of Foreign Languages</red>")
-                ));
-
-                supershard.setItemMeta(ssmeta);
-
-                return supershard;
-            }
-
-
-        }
-        */
-        
-        public static class Supershard implements ICustomItem
-        {
+        public static class Supershard implements ICustomItem {
             @Override
-            public NamespacedKey key() {
+            public NamespacedKey getKey() {
                 return new NamespacedKey(PermanentDeath.getPlugin(PermanentDeath.class), "supershard_key");
             }
 
@@ -131,12 +104,21 @@ public class Globals {
 
                 return supershard;
             }
+
+            @Override
+            public CraftingRecipe getRecipe() {
+                ShapelessRecipe recipe = new ShapelessRecipe(getKey(), getItem());
+                recipe.addIngredient(new RecipeChoice.MaterialChoice(Material.AMETHYST_SHARD));
+                recipe.addIngredient(new RecipeChoice.MaterialChoice(Material.END_CRYSTAL));
+                recipe.addIngredient(new RecipeChoice.MaterialChoice(Material.ECHO_SHARD));
+
+                return recipe;
+            }
         }
 
         public static class UntappedHeartcore implements ICustomItem {
-            //public static NamespacedKey key = new NamespacedKey(PermanentDeath.getPlugin(PermanentDeath.class), "uhc_key");
             @Override
-            public NamespacedKey key() {
+            public NamespacedKey getKey() {
                 return new NamespacedKey(PermanentDeath.getPlugin(PermanentDeath.class), "uhc_key");
             }
 
@@ -156,12 +138,21 @@ public class Globals {
 
                 return uh;
             }
+
+            @Override
+            public CraftingRecipe getRecipe() {
+                ShapedRecipe recipe = new ShapedRecipe(getKey(), getItem());
+                recipe.shape(" s ","sus"," s ");
+                recipe.setIngredient('s', new RecipeChoice.ExactChoice(Implementation.supershard.getItem()));
+                recipe.setIngredient('u', new RecipeChoice.MaterialChoice(Material.HEART_OF_THE_SEA));
+
+                return recipe;
+            }
         }
 
         public static class Heartcore implements ICustomItem {
-            //public static NamespacedKey key = new NamespacedKey(PermanentDeath.getPlugin(PermanentDeath.class), "heartcore_key");
             @Override
-            public NamespacedKey key() {
+            public NamespacedKey getKey() {
                 return new NamespacedKey(PermanentDeath.getPlugin(PermanentDeath.class), "heartcore_key");
             }
 
@@ -182,6 +173,29 @@ public class Globals {
 
                 return hc;
             }
+
+            @Override
+            public CraftingRecipe getRecipe() {
+                ShapelessRecipe recipe = new ShapelessRecipe(getKey(), getItem());
+                recipe.addIngredient(new RecipeChoice.MaterialChoice(Material.GOLDEN_APPLE));
+                recipe.addIngredient(new RecipeChoice.ExactChoice(Implementation.untappedHeartcore.getItem()));
+
+                return recipe;
+            }
+        }
+
+    }
+    public static class Implementation
+    {
+        public static Item.Supershard supershard;
+        public static Item.UntappedHeartcore untappedHeartcore;
+        public static Item.Heartcore heartcore;
+
+        public static void initializeItems()
+        {
+            supershard = new Item.Supershard();
+            untappedHeartcore = new Item.UntappedHeartcore();
+            heartcore = new Item.Heartcore();
         }
     }
 }

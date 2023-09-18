@@ -6,6 +6,8 @@ import dev.dejvokep.boostedyaml.settings.general.GeneralSettings;
 import dev.dejvokep.boostedyaml.settings.loader.LoaderSettings;
 import dev.dejvokep.boostedyaml.settings.updater.UpdaterSettings;
 import org.bukkit.Bukkit;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import xyz.iffyspeak.permanentdeath.Tools.Globals;
 import xyz.iffyspeak.permanentdeath.Tools.SQL.MySQL;
@@ -59,7 +61,24 @@ public final class PermanentDeath extends JavaPlugin {
             Bukkit.getLogger().severe(e.toString());
         }
 
+        Globals.Implementation.initializeItems();
+        getServer().addRecipe(Globals.Implementation.supershard.getRecipe());
+        getServer().addRecipe(Globals.Implementation.untappedHeartcore.getRecipe());
+        getServer().addRecipe(Globals.Implementation.heartcore.getRecipe());
+
         getServer().getPluginManager().registerEvents(new EventListener(), this);
+
+        getServer().getScheduler().scheduleSyncRepeatingTask(this, () -> {
+
+            for (Player p : Bukkit.getOnlinePlayers())
+            {
+                if (p.getHealth() % 2 == 0)
+                {
+                    Objects.requireNonNull(p.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(p.getHealth());
+                }
+            }
+
+        }, 0, 5);
 
     }
 
