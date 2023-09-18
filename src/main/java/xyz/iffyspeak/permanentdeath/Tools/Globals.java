@@ -57,6 +57,7 @@ public class Globals {
     public static class Configuration {
         public static YamlDocument configuration;
 
+        /*
         public static void saveLocalConfig()
         {
             if (configuration != null)
@@ -69,6 +70,7 @@ public class Globals {
                 }
             }
         }
+         */
 
         public static void loadLocalConfig()
         {

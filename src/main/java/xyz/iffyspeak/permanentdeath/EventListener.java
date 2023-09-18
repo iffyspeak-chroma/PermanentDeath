@@ -44,7 +44,7 @@ public class EventListener implements Listener {
         if (Globals.Database.mySQL != null)
         {
             sql = Globals.Database.mySQL;
-            if (!SQLToolkit.uuidExists(Globals.Database.mySQL, localplayer.getUniqueId().toString()))
+            if (SQLToolkit.uuidExists(Globals.Database.mySQL, localplayer.getUniqueId().toString()))
             {
                 SQLToolkit.addPlayer(sql, localplayer.getUniqueId().toString(), localplayer.getName(), 3);
                 return;

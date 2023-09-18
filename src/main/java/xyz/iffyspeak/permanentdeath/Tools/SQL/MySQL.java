@@ -5,7 +5,6 @@ import xyz.iffyspeak.permanentdeath.Tools.Globals;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;
 
 public class MySQL {
 
@@ -13,10 +12,10 @@ public class MySQL {
 
     public boolean isConnected()
     {
-        return (connection == null ? false : true);
+        return (connection != null);
     }
 
-    public void connect() throws ClassNotFoundException, SQLException
+    public void connect()
     {
         if (!isConnected())
         {
@@ -33,6 +32,7 @@ public class MySQL {
             catch (Exception e) {
                 // TODO Auto-generated catch block
                 //e.printStackTrace();
+                Bukkit.getLogger().severe("Failed to connect to MySQL.");
             }
         }
     }

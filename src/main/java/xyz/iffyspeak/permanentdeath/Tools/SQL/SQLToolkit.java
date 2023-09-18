@@ -24,15 +24,13 @@ public class SQLToolkit {
     public static void addPlayer(MySQL sql, String uuid, String name, int lives)
     {
         try {
-            if (!uuidExists(sql, uuid))
+            if (uuidExists(sql, uuid))
             {
                 PreparedStatement ps = sql.getConnection().prepareStatement("INSERT IGNORE INTO lifelist(NAME,UUID,LIFECOUNT) VALUES (?,?,?)");
                 ps.setString(1, name);
                 ps.setString(2, uuid);
                 ps.setInt(3, lives);
                 ps.executeUpdate();
-
-                return;
             }
 
         } catch (Exception e)
@@ -62,7 +60,7 @@ public class SQLToolkit {
             PreparedStatement ps = sql.getConnection().prepareStatement("SELECT LIFECOUNT FROM lifelist WHERE UUID=?");
             ps.setString(1, uuid);
             ResultSet rs = ps.executeQuery();
-            int rslives = -1;
+            int rslives;
 
             if (rs.next())
             {
@@ -84,19 +82,15 @@ public class SQLToolkit {
             ps.setString(1, uuid);
 
             ResultSet results = ps.executeQuery();
-            if (results.next())
-            {
-                // There is a player
-                return true;
-            }
+            // There is a player
+            return !results.next();
             // No player
-            return false;
         } catch (Exception e)
         {
             Bukkit.getLogger().severe(e.toString());
             //e.printStackTrace();
         }
-        return false;
+        return true;
     }
 
 }
